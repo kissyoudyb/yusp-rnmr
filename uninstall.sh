@@ -13,7 +13,7 @@ Stack=$1
 
 YUSP_Ver='1.0'
 
-. yusp.conf
+. ./yusp.conf
 . include/main.sh
 
 shopt -s extglob

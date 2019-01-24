@@ -17,7 +17,7 @@ else
 fi
 
 YUSP_Ver='1.0'
-. yusp.conf
+. ./yusp.conf
 . include/main.sh
 . include/init.sh
 . include/nginx.sh
