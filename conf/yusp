@@ -1,0 +1,184 @@
+#!/bin/bash
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
+export PATH
+
+# Check if user is root
+if [ $(id -u) != "0" ]; then
+    echo "Error: You must be root to run this script!"
+    exit 1
+fi
+
+echo "+-------------------------------------------+"
+echo "|    Manager for YUSP, Written by Danyub    |"
+echo "+-------------------------------------------+"
+echo "|              https://yusys.cn             |"
+echo "+-------------------------------------------+"
+
+PHPFPMPIDFILE=/usr/local/php/var/run/php-fpm.pid
+
+arg1=$1
+arg2=$2
+
+yusp_start()
+{
+    echo "Starting YUSP..."
+    /etc/init.d/nginx start
+    /etc/init.d/mysql start
+}
+
+yusp_stop()
+{
+    echo "Stoping YUSP..."
+    /etc/init.d/nginx stop
+    /etc/init.d/mysql stop
+}
+
+yusp_reload()
+{
+    echo "Reload YUSP..."
+    /etc/init.d/nginx reload
+    /etc/init.d/mysql reload
+}
+
+yusp_kill()
+{
+    echo "Kill nginx,mysql process..."
+    killall nginx
+    killall mysqld
+    echo "done."
+}
+
+yusp_status()
+{
+    /etc/init.d/nginx status
+    /etc/init.d/mysql status
+}
+
+Check_DB()
+{
+    if [[ -s /usr/local/mariadb/bin/mysql && -s /usr/local/mariadb/bin/mysqld_safe && -s /etc/my.cnf ]]; then
+        MySQL_Bin="/usr/local/mariadb/bin/mysql"
+        MySQL_Ver=`/usr/local/mariadb/bin/mysql_config --version`
+    elif [[ -s /usr/local/mysql/bin/mysql && -s /usr/local/mysql/bin/mysqld_safe && -s /etc/my.cnf ]]; then
+        MySQL_Bin="/usr/local/mysql/bin/mysql"
+        MySQL_Ver=`/usr/local/mysql/bin/mysql_config --version`
+    else
+        MySQL_Bin="None"
+    fi
+}
+
+Make_TempMycnf()
+{
+    cat >~/.my.cnf<<EOF
+[client]
+user=root
+password='$1'
+EOF
+    chmod 600 ~/.my.cnf
+}
+
+Verify_DB_Password()
+{
+    Check_DB
+    status=1
+    while [ $status -eq 1 ]; do
+        Echo_Yellow "Enter current root password of Database (Password will not shown): "
+        read -s DB_Root_Password
+        echo
+        Make_TempMycnf "${DB_Root_Password}"
+        Do_Query ""
+        status=$?
+    done
+    echo "OK, MySQL root password correct."
+}
+
+Do_Query()
+{
+    echo "$1" >/tmp/.mysql.tmp
+    chmod 600 /tmp/.mysql.tmp
+    Check_DB
+    ${MySQL_Bin} --defaults-file=~/.my.cnf </tmp/.mysql.tmp
+    return $?
+}
+
+TempMycnf_Clean()
+{
+    if [ -s ~/.my.cnf ]; then
+        rm -f ~/.my.cnf
+    fi
+    if [ -s /tmp/.mysql.tmp ]; then
+        rm -f /tmp/.mysql.tmp
+    fi
+}
+
+Color_Text()
+{
+  echo -e " \e[0;$2m$1\e[0m"
+}
+
+Echo_Red()
+{
+  echo $(Color_Text "$1" "31")
+}
+
+Echo_Green()
+{
+  echo $(Color_Text "$1" "32")
+}
+
+Echo_Yellow()
+{
+  echo -n $(Color_Text "$1" "33")
+}
+
+Echo_Blue()
+{
+  echo $(Color_Text "$1" "34")
+}
+
+Sleep_Sec()
+{
+    seconds=$1
+    while [ "${seconds}" -ge "0" ];do
+      echo -ne "\r     \r"
+      echo -n ${seconds}
+      seconds=$(($seconds - 1))
+      sleep 1
+    done
+    echo -ne "\r"
+}
+
+Check_DB
+
+case "${arg1}" in
+    start)
+        yusp_start
+        ;;
+    stop)
+        yusp_stop
+        ;;
+    restart)
+        yusp_stop
+        yusp_start
+        ;;
+    reload)
+        yusp_reload
+        ;;
+    kill)
+        yusp_kill
+        ;;
+    status)
+        yusp_status
+        ;;
+    nginx)
+        /etc/init.d/nginx ${arg2}
+        ;;
+    mysql)
+        /etc/init.d/mysql ${arg2}
+        ;;
+    *)
+        echo "Usage: yusp {start|stop|reload|restart|kill|status}"
+        echo "Usage: yusp {nginx|mysql} {start|stop|reload|restart|kill|status}"
+        ;;
+esac
+exit

@@ -128,10 +128,4 @@ Install_Nginx()
     \cp init.d/init.d.nginx /etc/init.d/nginx
     chmod +x /etc/init.d/nginx
 
-    if [ "${SelectMalloc}" = "3" ]; then
-        mkdir /tmp/tcmalloc
-        chown -R www:www /tmp/tcmalloc
-        sed -i '/nginx.pid/a\
-google_perftools_profiles /tmp/tcmalloc;' /usr/local/nginx/conf/nginx.conf
-    fi
 }
