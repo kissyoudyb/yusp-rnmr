@@ -23,25 +23,11 @@ LuaNginxModule='lua-nginx-module-0.10.13'
 NgxDevelKit='ngx_devel_kit-0.3.0'
 Nginx_Ver='nginx-1.14.2'
 if [ "${DBSelect}" = "1" ]; then
-    Mysql_Ver='mysql-5.1.73'
-elif [ "${DBSelect}" = "2" ]; then
-    Mysql_Ver='mysql-5.5.62'
-elif [ "${DBSelect}" = "3" ]; then
     Mysql_Ver='mysql-5.6.42'
-elif [ "${DBSelect}" = "4" ]; then
+elif [ "${DBSelect}" = "2" ]; then
     Mysql_Ver='mysql-5.7.24'
-elif [ "${DBSelect}" = "5" ]; then
+elif [ "${DBSelect}" = "3" ]; then
     Mysql_Ver='mysql-8.0.13'
-elif [ "${DBSelect}" = "6" ]; then
-    Mariadb_Ver='mariadb-5.5.62'
-elif [ "${DBSelect}" = "7" ]; then
-    Mariadb_Ver='mariadb-10.0.37'
-elif [ "${DBSelect}" = "8" ]; then
-    Mariadb_Ver='mariadb-10.1.37'
-elif [ "${DBSelect}" = "9" ]; then
-    Mariadb_Ver='mariadb-10.2.19'
-elif [ "${DBSelect}" = "10" ]; then
-    Mariadb_Ver='mariadb-10.3.11'
 fi
 
 Redis_Stable_Ver='redis-5.0.3'
