@@ -21,6 +21,7 @@ YUSP_Ver='1.0'
 . include/main.sh
 . include/init.sh
 . include/nginx.sh
+. include/mysql.sh
 . include/end.sh
 . include/only.sh
     
