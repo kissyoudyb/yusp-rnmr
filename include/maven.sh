@@ -13,6 +13,7 @@ Install_Maven()
         Download_Files ${YUSP_Download_Mirror}/${Maven_Ver}-bin.tar.gz ${Maven_Ver}-bin.tar.gz
         Tar_Cd ${Maven_Ver}-bin.tar.gz ${Maven_Ver}
 		pwd
+		cd ${cur_dir}/src
 		echo "mv mavendir to /usr/local ..."
 		mv ./${Maven_Ver} /usr/local/
 		cd /usr/local/${Maven_Ver}
