@@ -18,11 +18,13 @@ action2=$2
 . include/version.sh
 . include/redis.sh
 . include/jdk.sh
+. include/maven.sh
 
 Display_Addons_Menu()
 {
     echo "##### cache / jdk / accelerator #####"
 	echo "1: Jdk"
+	echo "2: Maven"
     echo "5: Redis"
     echo "##### Image Processing #####"
     echo "7: imageMagick"
@@ -30,7 +32,7 @@ Display_Addons_Menu()
     echo "8: ionCube Loader"
     echo "exit: Exit current script"
     echo "#####################################################"
-    read -p "Enter your choice (1, 5, 7, 8 or exit): " action2
+    read -p "Enter your choice (1, 2, 5, 7, 8 or exit): " action2
 }
 
 clear
@@ -54,6 +56,9 @@ Get_Dist_Name
 			1|[jJ][dD][kK])
                 Install_JDK
                 ;;
+			1|[mM]aven)
+                Install_Maven
+                ;;
             5|[rR]edis)
                 Install_Redis
                 ;;
@@ -67,7 +72,7 @@ Get_Dist_Name
                 exit 1
                 ;;
             *)
-                echo "Usage: ./addons.sh {install|uninstall} {jdk|redis|imagemagick|ioncube}"
+                echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|imagemagick|ioncube}"
                 ;;
         esac
         ;;
@@ -89,7 +94,7 @@ Get_Dist_Name
                 Uninstall_ionCube
                 ;;
             *)
-                echo "Usage: ./addons.sh {install|uninstall} {jdk|redis|ioncube}"
+                echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|ioncube}"
                 ;;
         esac
         ;;
