@@ -15,6 +15,7 @@ Install_Maven()
 		pwd
 		cd ${cur_dir}/src
 		echo "mv mavendir to /usr/local ..."
+		rm -rf /usr/local/${Maven_Ver}
 		mv ./${Maven_Ver} /usr/local/
 		cd /usr/local/${Maven_Ver}
 		MAVEN_HOME=`pwd`

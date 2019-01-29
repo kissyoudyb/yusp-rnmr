@@ -15,6 +15,7 @@ Install_JDK()
         Tar_Cd ${JDK_Ver}.tar.gz ${JDK_Ver}
 		pwd
 		echo "mv jdkdir to /usr/local ..."
+		rm -rf /usr/local/jdkl*
 		mv ./jdk1* /usr/local/
 		cd /usr/local/jdk*
 		JAVA_HOME=`pwd`
