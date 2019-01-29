@@ -7,8 +7,9 @@ Install_JDK()
     Press_Start
 
     cd ${cur_dir}/src
-    if [ -s ${JAVA_HOME} ]; then
-        echo "JDK already exists. JAVA_HOME is: ${JAVA_HOME}"
+	java -version
+    if [ $? = 0 ]; then
+        echo "JDK already install. JAVA_HOME is: ${JAVA_HOME}"
     else
         Download_Files YUSP_Download_Mirror/${JDK_Ver}.tar.gz ${JDK_Ver}.tar.gz
         Tar_Cd ${JDK_Ver}.tar.gz ${JDK_Ver}
@@ -64,7 +65,7 @@ Install_JDK()
     # chmod +x /etc/init.d/redis
     # echo "Add to auto startup..."
     # StartUp redis
-    Restart_PHP
+    #Restart_PHP
     # /etc/init.d/redis start
 
     # if [ -s /usr/local/redis/bin/redis-server ]; then
