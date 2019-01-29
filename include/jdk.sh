@@ -14,6 +14,21 @@ Install_JDK()
         Download_Files ${YUSP_Download_Mirror}/${JDK_Ver}.tar.gz ${JDK_Ver}.tar.gz
         Tar_Cd ${JDK_Ver}.tar.gz ${JDK_Ver}
 		pwd
+		mv ./jdk1* /usr/local/
+		cd /usr/local/jdk*
+		JAVA_HOME=`pwd`
+		cat >>/etc/profile<<EOF
+		#JAVA_HOME
+		export JAVA_HOME=${JAVA_HOME}
+		export PATH=$PATH:$JAVA_HOME/bin
+		EOF
+		java -version
+		if [ $? = 0 ]; then
+			Echo_Green "====== Jdk install completed ======"
+			Echo_Green "Jdk installed successfully, enjoy it!"
+		else
+        Echo_Red "Jdk install failed!"
+		fi
         # if [ "${Is_64bit}" = "y" ] ; then
             # make PREFIX=/usr/local/redis install
         # else
