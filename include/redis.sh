@@ -74,7 +74,7 @@ Install_Redis()
     #Restart_PHP
     /etc/init.d/redis start
 
-    if [ -s "${zend_ext}" ] && [ -s /usr/local/redis/bin/redis-server ]; then
+    if [ -s /usr/local/redis/bin/redis-server ]; then
         Echo_Green "====== Redis install completed ======"
         Echo_Green "Redis installed successfully, enjoy it!"
     else
