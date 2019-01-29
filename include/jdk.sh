@@ -43,6 +43,7 @@ Uninstall_JDK()
     rm -rf /usr/local/jdk*
 	echo "Delete JAVA_HOME in /etc/profile ..."
     sed -i '/jdk1/d' /etc/profile
+	sed -i '/JAVA_HOME/d' /etc/profile
 	source /etc/profile
     Echo_Green "Uninstall JDK completed."
 }
