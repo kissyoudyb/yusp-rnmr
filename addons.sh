@@ -81,6 +81,9 @@ Get_Dist_Name
 			[jJ][dD][kK])
                 Uninstall_JDK
                 ;;
+			[mM][aA][vV][eE][nN])
+                Uninstall_Maven
+                ;;
             [rR]edis)
                 Uninstall_Redis
                 ;;
@@ -102,7 +105,7 @@ Get_Dist_Name
         exit 1
         ;;
     *)
-        echo "Usage: ./addons.sh {install|uninstall} {jdk|redis|apcu|imagemagick|ioncube}"
+        echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|ioncube}"
         exit 1
         ;;
     esac

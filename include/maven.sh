@@ -37,15 +37,15 @@ EOF
     fi
 }
 
-Uninstall_JDK()
+Uninstall_Maven()
 {
-    echo "You will uninstall JDK..."
+    echo "You will uninstall Maven..."
     Press_Start
-    echo "Delete JDK files..."
-    rm -rf /usr/local/jdk*
-	echo "Delete JAVA_HOME in /etc/profile ..."
-    sed -i '/jdk1/d' /etc/profile
-	sed -i '/JAVA_HOME/d' /etc/profile
+    echo "Delete Maven files..."
+    rm -rf /usr/local/${Maven_Ver}
+	echo "Delete MAVEN_HOME in /etc/profile ..."
+    sed -i '/maven/d' /etc/profile
+	sed -i '/MAVEN_HOME/d' /etc/profile
 	source /etc/profile
-    Echo_Green "Uninstall JDK completed."
+    Echo_Green "Uninstall Maven completed."
 }
