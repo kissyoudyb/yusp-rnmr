@@ -21,7 +21,7 @@ Install_JDK()
 		#JAVA_HOME
 		export JAVA_HOME=${JAVA_HOME}
 		export PATH=$PATH:$JAVA_HOME/bin
-		EOF
+EOF
 		source /etc/profile
 		java -version
 		if [ $? = 0 ]; then
