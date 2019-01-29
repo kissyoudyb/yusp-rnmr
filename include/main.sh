@@ -400,8 +400,8 @@ Check_Mirror()
                         echo "Change to mirror http://soft1.vpser.net"
                         Download_Mirror='http://soft1.vpser.net'
                     else
-                        echo "Can not connect to download mirror,Please modify lnmp.conf manually."
-                        echo "More info,please visit https://lnmp.org/faq/download-url.html"
+                        echo "Can not connect to download mirror,Please modify yusp.conf manually."
+                        echo "More info,please visit https://yusp.org/faq/download-url.html"
                         exit 1
                     fi
                 fi

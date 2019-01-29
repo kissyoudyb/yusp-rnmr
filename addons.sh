@@ -17,10 +17,12 @@ action2=$2
 . include/init.sh
 . include/version.sh
 . include/redis.sh
+. include/jdk.sh
 
 Display_Addons_Menu()
 {
-    echo "##### cache / optimizer / accelerator #####"
+    echo "##### cache / jdk / accelerator #####"
+	echo "1: Jdk"
     echo "5: Redis"
     echo "##### Image Processing #####"
     echo "7: imageMagick"
@@ -28,7 +30,7 @@ Display_Addons_Menu()
     echo "8: ionCube Loader"
     echo "exit: Exit current script"
     echo "#####################################################"
-    read -p "Enter your choice (5, 7, 8 or exit): " action2
+    read -p "Enter your choice (1, 5, 7, 8 or exit): " action2
 }
 
 clear
@@ -49,6 +51,9 @@ Get_Dist_Name
     case "${action}" in
     install)
         case "${action2}" in
+			1|[jJ][dD][kK])
+                Install_JDK
+                ;;
             5|[rR]edis)
                 Install_Redis
                 ;;
@@ -62,7 +67,7 @@ Get_Dist_Name
                 exit 1
                 ;;
             *)
-                echo "Usage: ./addons.sh {install|uninstall} {redis|imagemagick|ioncube}"
+                echo "Usage: ./addons.sh {install|uninstall} {jdk|redis|imagemagick|ioncube}"
                 ;;
         esac
         ;;
