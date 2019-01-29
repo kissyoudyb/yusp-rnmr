@@ -22,6 +22,7 @@ Install_JDK()
 		export JAVA_HOME=${JAVA_HOME}
 		export PATH=$PATH:$JAVA_HOME/bin
 		EOF
+		source /etc/profile
 		java -version
 		if [ $? = 0 ]; then
 			Echo_Green "====== Jdk install completed ======"
