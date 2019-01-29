@@ -11,7 +11,7 @@ Install_JDK()
     if [ $? = 0 ]; then
         echo "JDK already install. JAVA_HOME is: ${JAVA_HOME}"
     else
-        Download_Files YUSP_Download_Mirror/${JDK_Ver}.tar.gz ${JDK_Ver}.tar.gz
+        Download_Files ${YUSP_Download_Mirror}/${JDK_Ver}.tar.gz ${JDK_Ver}.tar.gz
         Tar_Cd ${JDK_Ver}.tar.gz ${JDK_Ver}
 		pwd
         # if [ "${Is_64bit}" = "y" ] ; then
