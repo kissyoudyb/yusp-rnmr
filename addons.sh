@@ -73,6 +73,9 @@ Get_Dist_Name
         ;;
     uninstall)
         case "${action2}" in
+			[jJ][dD][kK])
+                Uninstall_JDK
+                ;;
             [rR]edis)
                 Uninstall_Redis
                 ;;
@@ -86,7 +89,7 @@ Get_Dist_Name
                 Uninstall_ionCube
                 ;;
             *)
-                echo "Usage: ./addons.sh {install|uninstall} {redis|apcu|imagemagick|ioncube}"
+                echo "Usage: ./addons.sh {install|uninstall} {jdk|redis|ioncube}"
                 ;;
         esac
         ;;
@@ -94,7 +97,7 @@ Get_Dist_Name
         exit 1
         ;;
     *)
-        echo "Usage: ./addons.sh {install|uninstall} {redis|apcu|imagemagick|ioncube}"
+        echo "Usage: ./addons.sh {install|uninstall} {jdk|redis|apcu|imagemagick|ioncube}"
         exit 1
         ;;
     esac
