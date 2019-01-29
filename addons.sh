@@ -56,7 +56,7 @@ Get_Dist_Name
 			1|[jJ][dD][kK])
                 Install_JDK
                 ;;
-			1|[mM]aven)
+			2|[mM]aven)
                 Install_Maven
                 ;;
             5|[rR]edis)
