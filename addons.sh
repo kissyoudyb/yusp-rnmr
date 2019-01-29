@@ -12,7 +12,7 @@ cur_dir=$(pwd)
 action=$1
 action2=$2
 
-. lnmp.conf
+. ./yusp.conf
 . include/main.sh
 . include/init.sh
 . include/version.sh
