@@ -23,7 +23,7 @@ Install_Maven()
 		cat >>/etc/profile<<EOF
 #MAVEN_HOME
 export MAVEN_HOME=${MAVEN_HOME}
-export PATH=$PATH:$MAVEN_HOME/bin
+export PATH='$PATH':$MAVEN_HOME/bin
 EOF
 		source /etc/profile
 		mvn -v
