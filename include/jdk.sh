@@ -23,7 +23,7 @@ Install_JDK()
 		cat >>/etc/profile<<EOF
 #JAVA_HOME
 export JAVA_HOME=${JAVA_HOME}
-export PATH=$PATH:$JAVA_HOME/bin
+export PATH='$PATH':$JAVA_HOME/bin
 EOF
 		source /etc/profile
 		java -version
