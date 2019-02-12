@@ -90,6 +90,7 @@ EOF
     Do_Query "DELETE FROM mysql.user WHERE User='';"
     Do_Query "DROP USER ''@'%';"
     [ $? -eq 0 ] && echo " ... Success." || echo " ... Failed!"
+	#TODO 远程连接可能需要放开，或者增加创建普通用户的脚本语句
     echo "Disallow root login remotely..."
     Do_Query "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');"
     [ $? -eq 0 ] && echo " ... Success." || echo " ... Failed!"
