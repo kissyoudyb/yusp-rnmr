@@ -34,7 +34,7 @@ Apollo_Create_Init_db() {
 	echo "show database..."
 	Do_Query "show databases;"
 	echo "update ApolloConfigDB.ServerConfig Set Apollo_ConfigService_Port=${Apollo_ConfigService_Port}"
-	Do_Query "UPDATE ApolloConfigDB.ServerConfig SET Value='http://localhost:${Apollo_ConfigService_Port}/eureka/' WHERE `Key`='eureka.service.url';"
+	Do_Query "UPDATE ApolloConfigDB.ServerConfig SET `Value`='http://localhost:${Apollo_ConfigService_Port}/eureka/' WHERE `Key`='eureka.service.url';"
 	Do_Query "SELECT * FROM ApolloConfigDB.ServerConfig WHERE `Key`='eureka.service.url';"
 	echo "update ApolloConfigDB.ServerConfig Successful!"
 	Echo_Green "import apollo init sql success..."
@@ -42,10 +42,10 @@ Apollo_Create_Init_db() {
 
 Apollo_Install_configservice(){
     echo "====== Apollo_Install_configservice ======"
-	Download_Files ${YUSP_Download_Mirror}/apollo-configservice-${Apollo_Ver}-github.zip
+	Download_Files ${YUSP_Download_Mirror}/apollo-configservice-${Apollo_Ver}-github.zip apollo-configservice-${Apollo_Ver}-github.zip
 	unzip apollo-configservice-${Apollo_Ver}-github.zip -d apollo-configservice-${Apollo_Ver}
 	echo "mv apolloconfig to /usr/local ..." 
-	rm -rf /usr/local/apollo-configservice
+	rm -rf /usr/local/apollo-configservice*
 	mv apollo-configservice-${Apollo_Ver} /usr/local/
 	cd /usr/local/apollo-configservice-${Apollo_Ver}
 	sed -i "s#fill-in-the-correct-server#localhost#" config/application-github.properties
@@ -63,10 +63,10 @@ Apollo_Install_configservice(){
 
 Apollo_Install_adminservice(){
     echo "====== Apollo_Install_adminservice ======"
-	Download_Files ${YUSP_Download_Mirror}/apollo-adminservice-${Apollo_Ver}-github.zip
+	Download_Files ${YUSP_Download_Mirror}/apollo-adminservice-${Apollo_Ver}-github.zip apollo-adminservice-${Apollo_Ver}-github.zip
 	unzip apollo-adminservice-${Apollo_Ver}-github.zip -d apollo-adminservice-${Apollo_Ver}
 	echo "mv apolloadminservice to /usr/local ..." 
-	rm -rf /usr/local/apollo-adminservice
+	rm -rf /usr/local/apollo-adminservice*
 	mv apollo-adminservice-${Apollo_Ver} /usr/local/
 	cd /usr/local/apollo-adminservice-${Apollo_Ver}
 	sed -i "s#fill-in-the-correct-server#localhost#" config/application-github.properties
