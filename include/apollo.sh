@@ -34,8 +34,8 @@ Apollo_Create_Init_db() {
 	echo "show database..."
 	Do_Query "show databases;"
 	echo "update ApolloConfigDB.ServerConfig Set Apollo_ConfigService_Port=${Apollo_ConfigService_Port}"
-	Do_Query "UPDATE ApolloConfigDB.ServerConfig SET Value='http://localhost:${Apollo_ConfigService_Port}/' WHERE Key='eureka.service.url';"
-	Do_Query "SELECT * FROM ApolloConfigDB.ServerConfig WHERE Key='eureka.service.url';"
+	Do_Query "UPDATE ApolloConfigDB.ServerConfig SET Value='http://localhost:${Apollo_ConfigService_Port}/eureka/' WHERE `Key`='eureka.service.url';"
+	Do_Query "SELECT * FROM ApolloConfigDB.ServerConfig WHERE `Key`='eureka.service.url';"
 	echo "update ApolloConfigDB.ServerConfig Successful!"
 	Echo_Green "import apollo init sql success..."
 }
