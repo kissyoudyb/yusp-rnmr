@@ -39,10 +39,10 @@ Apollo_Install_configservice(){
 	rm -rf /usr/local/apollo-configservice
 	mv apollo-configservice-${Apollo_Ver} /usr/local/
 	cd /usr/local/apollo-configservice-${Apollo_Ver}
-	sed -i "s#^spring.datasource.url*#spring.datasource.url = jdbc:mysql://localhost:3306/ApolloConfigDB?characterEncoding=utf8#" config/application-github.properties
-	sed -i "s#^spring.datasource.username*#spring.datasource.username = ${Apollo_DB_User}#" config/application-github.properties
-	sed -i "s#^spring.datasource.password*#spring.datasource.password = ${Apollo_DB_Password}#" config/application-github.properties
-	sed -i "s#^SERVER_PORT*#SERVER_PORT=${Apollo_ConfigService_Port}#" scripts/startup.sh
+	sed -i "s#fill-in-the-correct-server#localhost#" config/application-github.properties
+	sed -i "s#FillInCorrectUser#${Apollo_DB_User}#" config/application-github.properties
+	sed -i "s#FillInCorrectPassword#${Apollo_DB_Password}#" config/application-github.properties
+	sed -i "s#SERVER_PORT=8080#SERVER_PORT=${Apollo_ConfigService_Port}#" scripts/startup.sh
 	sh  /usr/local/apollo-configservice-${Apollo_Ver}/scripts/startup.sh
 	
 }
