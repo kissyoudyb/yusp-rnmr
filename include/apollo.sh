@@ -15,12 +15,14 @@ Apollo_Create_Init_db() {
 	Download_Files ${YUSP_Download_Mirror}/apolloconfigdb.sql
 	Download_Files ${YUSP_Download_Mirror}/apolloportaldb.sql
 	Apollo_Make_TempMycnf "${Apollo_DB_User}" "${Apollo_DB_Password}"
-	Do_Query "show database;"
+	echo "show database..."
+	Do_Query "show databases;"
 	if [ $? -eq 0 ]; then
         echo "OK, Apollo_DB_User is: ${Apollo_DB_User}, password correct."
     fi
-    echo "show database..."
-	
+	echo "import apollo init sql..."
+	Do_Query "source polloconfigdb.sql"
+	Do_Query "source apolloportaldb.sql"
 }
 
 Apollo_Make_TempMycnf() {
