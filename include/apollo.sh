@@ -11,6 +11,7 @@ Install_Apollo()
 	Apollo_Create_Init_db
 	#安装configservice
 	Apollo_Install_configservice
+	#安装andminservice
 }
 
 Apollo_Create_Init_db() {
@@ -22,7 +23,10 @@ Apollo_Create_Init_db() {
 	Do_Query "show databases;"
 	if [ $? -eq 0 ]; then
         Echo_Green "OK, Apollo_DB_User is: ${Apollo_DB_User}, password correct."
-    fi
+    else
+		Echo_Red "Sorry, Apollo_DB_User or password notcorrect! install failed!"
+		return -1;
+	fi
 	echo "import apollo init sql..."
 	Do_Query "source apolloconfigdb.sql"
 	Do_Query "source apolloportaldb.sql"
@@ -44,7 +48,12 @@ Apollo_Install_configservice(){
 	sed -i "s#FillInCorrectPassword#${Apollo_DB_Password}#" config/application-github.properties
 	sed -i "s#SERVER_PORT=8080#SERVER_PORT=${Apollo_ConfigService_Port}#" scripts/startup.sh
 	sh  /usr/local/apollo-configservice-${Apollo_Ver}/scripts/startup.sh
-	
+	if [ $? -eq 0 ]; then
+        Echo_Green "OK, ====== Apollo_Install_configservice Successful!!======"
+    else
+		Echo_Red "Sorry, Apollo_Install_configservice failed! please check you opration and try again!"
+		return -1;
+	fi
 }
 
 Apollo_Make_TempMycnf() {
