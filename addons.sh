@@ -19,20 +19,19 @@ action2=$2
 . include/redis.sh
 . include/jdk.sh
 . include/maven.sh
+. include/apollo.sh
 
 Display_Addons_Menu()
 {
-    echo "##### cache / jdk / accelerator #####"
+    echo "##### cache / jdk / Maven #####"
 	echo "1: Jdk"
 	echo "2: Maven"
+	echo "##### Ctrip Apollo #####"
+	echo "3: Apollo"
     echo "5: Redis"
-    echo "##### Image Processing #####"
-    echo "7: imageMagick"
-    echo "##### encryption/decryption utility for PHP #####"
-    echo "8: ionCube Loader"
     echo "exit: Exit current script"
     echo "#####################################################"
-    read -p "Enter your choice (1, 2, 5, 7, 8 or exit): " action2
+    read -p "Enter your choice (1, 2, 3, 5 or exit): " action2
 }
 
 clear
@@ -59,20 +58,17 @@ Get_Dist_Name
 			2|[mM]aven)
                 Install_Maven
                 ;;
+			3|[aA]pollo)
+                Install_Apollo
+                ;;
             5|[rR]edis)
                 Install_Redis
-                ;;
-            7|image[mM]agick)
-                Install_ImageMagic
-                ;;
-            8|ion[cC]ube)
-                Install_ionCube
                 ;;
             [eE][xX][iI][tT])
                 exit 1
                 ;;
             *)
-                echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|imagemagick|ioncube}"
+                echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|apollo}"
                 ;;
         esac
         ;;
@@ -87,17 +83,11 @@ Get_Dist_Name
             [rR]edis)
                 Uninstall_Redis
                 ;;
-            apcu)
-                Uninstall_Apcu
-                ;;
-            image[mM]agick)
-                Uninstall_ImageMagick
-                ;;
-            ion[cC]ube)
-                Uninstall_ionCube
+            [aA]pollo)
+                Uninstall_Apollo
                 ;;
             *)
-                echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|ioncube}"
+                echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|apollo}"
                 ;;
         esac
         ;;
@@ -105,7 +95,7 @@ Get_Dist_Name
         exit 1
         ;;
     *)
-        echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|ioncube}"
+        echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|apollo}"
         exit 1
         ;;
     esac
