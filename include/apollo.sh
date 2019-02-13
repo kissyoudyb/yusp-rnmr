@@ -39,8 +39,11 @@ Apollo_Install_configservice(){
 	rm -rf /usr/local/apollo-configservice
 	mv apollo-configservice-${Apollo_Ver} /usr/local/
 	cd /usr/local/apollo-configservice-${Apollo_Ver}
-	#sed -i "s#^key_buffer_size.*#key_buffer_size = 32M#" /etc/my.cnf
-	
+	sed -i "s#^spring.datasource.url*#spring.datasource.url = jdbc:mysql://localhost:3306/ApolloConfigDB?characterEncoding=utf8#" config/application-github.properties
+	sed -i "s#^spring.datasource.username*#spring.datasource.username = ${Apollo_DB_User}#" config/application-github.properties
+	sed -i "s#^spring.datasource.password*#spring.datasource.password = ${Apollo_DB_Password}#" config/application-github.properties
+	sed -i "s#^SERVER_PORT*#SERVER_PORT=${Apollo_ConfigService_Port}#" scripts/startup.sh
+	sh  /usr/local/apollo-configservice-${Apollo_Ver}/scripts/startup.sh
 	
 }
 
@@ -57,6 +60,12 @@ EOF
 Uninstall_Apollo()
 {
     echo "You will uninstall Apollo..."
-    Echo_Red "do nothing..."
+	echo "Shutting down Apollo..."
+	sh  /usr/local/apollo-configservice-${Apollo_Ver}/scripts/shutdown.sh
+	sh  /usr/local/apollo-adminservice-${Apollo_Ver}/scripts/shutdown.sh
+	sh  /usr/local/apollo-portal-${Apollo_Ver}/scripts/shutdown.sh
+	Sleep_Sec 3
+    echo "Delete Apollo files..."
+    rm -rf /usr/local/apollo*
     Echo_Green "Uninstall Apollo completed."
 }
