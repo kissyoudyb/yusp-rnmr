@@ -21,8 +21,11 @@ Apollo_Create_Init_db() {
         echo "OK, Apollo_DB_User is: ${Apollo_DB_User}, password correct."
     fi
 	echo "import apollo init sql..."
-	Do_Query "source polloconfigdb.sql"
+	Do_Query "source apolloconfigdb.sql"
 	Do_Query "source apolloportaldb.sql"
+	echo "show database..."
+	Do_Query "show databases;"
+	Echo_Green "import apollo init sql success..."
 }
 
 Apollo_Make_TempMycnf() {
