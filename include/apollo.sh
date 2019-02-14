@@ -16,6 +16,7 @@ Install_Apollo()
 	#安装portal
 	Apollo_Install_portal
 	#把apollo安装为linux服务
+	Apollo_Add_AutoStartup
 }
 
 Apollo_Create_Init_db() {
