@@ -15,6 +15,7 @@ Install_Apollo()
 	Apollo_Install_adminservice
 	#安装portal
 	Apollo_Install_portal
+	#把apollo安装为linux服务
 }
 
 Apollo_Create_Init_db() {
@@ -54,7 +55,7 @@ Apollo_Install_configservice(){
 	sed -i "s#FillInCorrectUser#${Apollo_DB_User}#" config/application-github.properties
 	sed -i "s#FillInCorrectPassword#${Apollo_DB_Password}#" config/application-github.properties
 	sed -i "s#SERVER_PORT=8080#SERVER_PORT=${Apollo_ConfigService_Port}#" scripts/startup.sh
-	sh  ${Apollo_Install_Dir}apollo-configservice-${Apollo_Ver}/scripts/startup.sh
+	#sh  ${Apollo_Install_Dir}apollo-configservice-${Apollo_Ver}/scripts/startup.sh
 	if [ $? -eq 0 ]; then
         Echo_Green "OK, ====== Apollo_Install_configservice Successful!!======"
     else
@@ -75,7 +76,7 @@ Apollo_Install_adminservice(){
 	sed -i "s#FillInCorrectUser#${Apollo_DB_User}#" config/application-github.properties
 	sed -i "s#FillInCorrectPassword#${Apollo_DB_Password}#" config/application-github.properties
 	sed -i "s#SERVER_PORT=8090#SERVER_PORT=${Apollo_AdminService_Port}#" scripts/startup.sh
-	sh  ${Apollo_Install_Dir}apollo-adminservice-${Apollo_Ver}/scripts/startup.sh
+	#sh  ${Apollo_Install_Dir}apollo-adminservice-${Apollo_Ver}/scripts/startup.sh
 	if [ $? -eq 0 ]; then
         Echo_Green "OK, ====== Apollo_Install_adminservice Successful!!======"
     else
@@ -97,13 +98,28 @@ Apollo_Install_portal(){
 	sed -i "s#FillInCorrectPassword#${Apollo_DB_Password}#" config/application-github.properties
 	sed -i "s#SERVER_PORT=8070#SERVER_PORT=${Apollo_Portal_Port}#" scripts/startup.sh
 	sed -i "s#fill-in-dev-meta-server:8080#localhost:${Apollo_ConfigService_Port}#" config/apollo-env.properties
-	sh  ${Apollo_Install_Dir}apollo-portal-${Apollo_Ver}/scripts/startup.sh
+	#sh  ${Apollo_Install_Dir}apollo-portal-${Apollo_Ver}/scripts/startup.sh
 	if [ $? -eq 0 ]; then
         Echo_Green "OK, ====== Apollo_Install_portal Successful!!======"
     else
 		Echo_Red "Sorry, Apollo_Install_portal failed! please check you operation and try again!"
 		return -1;
 	fi
+}
+
+Apollo_Add_AutoStartup(){
+	\cp ${cur_dir}/init.d/init.d.apollo /etc/init.d/apollo
+    chmod +x /etc/init.d/apollo
+    echo "Add Apollo to auto startup..."
+    StartUp apollo
+    #启动apollo
+    /etc/init.d/apollo start
+	if [ $? -eq 0 ]; then
+	    Echo_Green "====== Add Apollo Auto Startup Successful! ======"
+		Echo_Green "Apollo installed successfully, enjoy it!"
+    else
+        Echo_Red "Apollo install failed!"
+    fi
 }
 
 Apollo_Make_TempMycnf() {
@@ -115,7 +131,6 @@ EOF
     chmod 600 ~/.my.cnf	
 }
 
-
 Uninstall_Apollo()
 {
     echo "You will uninstall Apollo..."
@@ -123,8 +138,9 @@ Uninstall_Apollo()
 	sh  ${Apollo_Install_Dir}apollo-configservice-${Apollo_Ver}/scripts/shutdown.sh
 	sh  ${Apollo_Install_Dir}apollo-adminservice-${Apollo_Ver}/scripts/shutdown.sh
 	sh  ${Apollo_Install_Dir}apollo-portal-${Apollo_Ver}/scripts/shutdown.sh
-	Sleep_Sec 3
+	Remove_StartUp apollo
     echo "Delete Apollo files..."
     rm -rf ${Apollo_Install_Dir}apollo*
+	rm -rf /etc/init.d/apollo
     Echo_Green "Uninstall Apollo completed."
 }

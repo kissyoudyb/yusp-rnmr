@@ -17,12 +17,8 @@
 # Description:        apollo daemon
 ### END INIT INFO
 
-
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/jdk1.8.0_40/bin
 Apollo_Install_Dir=/usr/local/
-Apollo_ConfigService_Port='9001'
-Apollo_AdminService_Port='9002'
-Apollo_Portal_Port='9003'
 Apollo_Ver='1.2.0'
 
 Color_Text()
