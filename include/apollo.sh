@@ -11,8 +11,8 @@ Install_Apollo()
 	Apollo_Create_Init_db
 	#安装configservice
 	Apollo_Install_configservice
-	#安装adminservice
-	Apollo_Install_adminservice
+	#安装portal
+	Apollo_Install_portal
 }
 
 Apollo_Create_Init_db() {
@@ -44,19 +44,19 @@ Apollo_Install_configservice(){
     echo "====== Apollo_Install_configservice ======"
 	Download_Files ${YUSP_Download_Mirror}/apollo-configservice-${Apollo_Ver}-github.zip apollo-configservice-${Apollo_Ver}-github.zip
 	unzip apollo-configservice-${Apollo_Ver}-github.zip -d apollo-configservice-${Apollo_Ver}
-	echo "mv apolloconfig to /usr/local ..." 
+	echo "mv apolloconfig to ${Apollo_Install_Dir} ..." 
 	rm -rf /usr/local/apollo-configservice*
-	mv apollo-configservice-${Apollo_Ver} /usr/local/
-	cd /usr/local/apollo-configservice-${Apollo_Ver}
+	mv apollo-configservice-${Apollo_Ver} ${Apollo_Install_Dir}
+	cd ${Apollo_Install_Dir}apollo-configservice-${Apollo_Ver}
 	sed -i "s#fill-in-the-correct-server#localhost#" config/application-github.properties
 	sed -i "s#FillInCorrectUser#${Apollo_DB_User}#" config/application-github.properties
 	sed -i "s#FillInCorrectPassword#${Apollo_DB_Password}#" config/application-github.properties
 	sed -i "s#SERVER_PORT=8080#SERVER_PORT=${Apollo_ConfigService_Port}#" scripts/startup.sh
-	sh  /usr/local/apollo-configservice-${Apollo_Ver}/scripts/startup.sh
+	sh  ${Apollo_Install_Dir}apollo-configservice-${Apollo_Ver}/scripts/startup.sh
 	if [ $? -eq 0 ]; then
         Echo_Green "OK, ====== Apollo_Install_configservice Successful!!======"
     else
-		Echo_Red "Sorry, Apollo_Install_configservice failed! please check you opration and try again!"
+		Echo_Red "Sorry, Apollo_Install_configservice failed! please check you operation and try again!"
 		return -1;
 	fi
 }
@@ -65,19 +65,41 @@ Apollo_Install_adminservice(){
     echo "====== Apollo_Install_adminservice ======"
 	Download_Files ${YUSP_Download_Mirror}/apollo-adminservice-${Apollo_Ver}-github.zip apollo-adminservice-${Apollo_Ver}-github.zip
 	unzip apollo-adminservice-${Apollo_Ver}-github.zip -d apollo-adminservice-${Apollo_Ver}
-	echo "mv apolloadminservice to /usr/local ..." 
-	rm -rf /usr/local/apollo-adminservice*
-	mv apollo-adminservice-${Apollo_Ver} /usr/local/
-	cd /usr/local/apollo-adminservice-${Apollo_Ver}
+	echo "mv apolloadminservice to ${Apollo_Install_Dir} ..." 
+	rm -rf ${Apollo_Install_Dir}apollo-adminservice*
+	mv apollo-adminservice-${Apollo_Ver} ${Apollo_Install_Dir}
+	cd ${Apollo_Install_Dir}apollo-adminservice-${Apollo_Ver}
 	sed -i "s#fill-in-the-correct-server#localhost#" config/application-github.properties
 	sed -i "s#FillInCorrectUser#${Apollo_DB_User}#" config/application-github.properties
 	sed -i "s#FillInCorrectPassword#${Apollo_DB_Password}#" config/application-github.properties
 	sed -i "s#SERVER_PORT=8090#SERVER_PORT=${Apollo_AdminService_Port}#" scripts/startup.sh
-	sh  /usr/local/apollo-adminservice-${Apollo_Ver}/scripts/startup.sh
+	sh  ${Apollo_Install_Dir}apollo-adminservice-${Apollo_Ver}/scripts/startup.sh
 	if [ $? -eq 0 ]; then
         Echo_Green "OK, ====== Apollo_Install_adminservice Successful!!======"
     else
-		Echo_Red "Sorry, Apollo_Install_adminservice failed! please check you opration and try again!"
+		Echo_Red "Sorry, Apollo_Install_adminservice failed! please check you operation and try again!"
+		return -1;
+	fi
+}
+
+Apollo_Install_portal(){
+    echo "====== Apollo_Install_portal ======"
+	Download_Files ${YUSP_Download_Mirror}/apollo-portal-${Apollo_Ver}-github.zip apollo-portal-${Apollo_Ver}-github.zip
+	unzip apollo-portal-${Apollo_Ver}-github.zip -d apollo-portal-${Apollo_Ver}
+	echo "mv apolloportal to ${Apollo_Install_Dir} ..." 
+	rm -rf ${Apollo_Install_Dir}apollo-portal*
+	mv apollo-portal-${Apollo_Ver} /usr/local/
+	cd ${Apollo_Install_Dir}apollo-portal-${Apollo_Ver}
+	sed -i "s#fill-in-the-correct-server#localhost#" config/application-github.properties
+	sed -i "s#FillInCorrectUser#${Apollo_DB_User}#" config/application-github.properties
+	sed -i "s#FillInCorrectPassword#${Apollo_DB_Password}#" config/application-github.properties
+	sed -i "s#SERVER_PORT=8070#SERVER_PORT=${Apollo_Portal_Port}#" scripts/startup.sh
+	sed -i "s#fill-in-dev-meta-server:8080#localhost:${Apollo_ConfigService_Port}#" config/apollo-env.properties
+	sh  ${Apollo_Install_Dir}apollo-portal-${Apollo_Ver}/scripts/startup.sh
+	if [ $? -eq 0 ]; then
+        Echo_Green "OK, ====== Apollo_Install_portal Successful!!======"
+    else
+		Echo_Red "Sorry, Apollo_Install_portal failed! please check you operation and try again!"
 		return -1;
 	fi
 }
@@ -96,11 +118,11 @@ Uninstall_Apollo()
 {
     echo "You will uninstall Apollo..."
 	echo "Shutting down Apollo..."
-	sh  /usr/local/apollo-configservice-${Apollo_Ver}/scripts/shutdown.sh
-	sh  /usr/local/apollo-adminservice-${Apollo_Ver}/scripts/shutdown.sh
-	sh  /usr/local/apollo-portal-${Apollo_Ver}/scripts/shutdown.sh
+	sh  ${Apollo_Install_Dir}apollo-configservice-${Apollo_Ver}/scripts/shutdown.sh
+	sh  ${Apollo_Install_Dir}apollo-adminservice-${Apollo_Ver}/scripts/shutdown.sh
+	sh  ${Apollo_Install_Dir}apollo-portal-${Apollo_Ver}/scripts/shutdown.sh
 	Sleep_Sec 3
     echo "Delete Apollo files..."
-    rm -rf /usr/local/apollo*
+    rm -rf ${Apollo_Install_Dir}apollo*
     Echo_Green "Uninstall Apollo completed."
 }
