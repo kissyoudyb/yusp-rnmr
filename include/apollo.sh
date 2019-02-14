@@ -22,7 +22,7 @@ Install_Apollo()
 Apollo_Create_Init_db() {
     echo "====== Apollo_Create_Init_db ======"
 	Download_Files ${YUSP_Download_Mirror}/apolloconfigdb.sql apolloconfigdb.sql
-	Download_Files ${YUSP_Download_Mirror}/apolloportaldb.sql apolloconfigdb.sql
+	Download_Files ${YUSP_Download_Mirror}/apolloportaldb.sql apolloportaldb.sql
 	Apollo_Make_TempMycnf "${Apollo_DB_User}" "${Apollo_DB_Password}"
 	echo "show database..."
 	Do_Query "show databases;"
@@ -66,6 +66,7 @@ Apollo_Install_configservice(){
 }
 
 Apollo_Install_adminservice(){
+	cd ${cur_dir}/src
     echo "====== Apollo_Install_adminservice ======"
 	Download_Files ${YUSP_Download_Mirror}/apollo-adminservice-${Apollo_Ver}-github.zip apollo-adminservice-${Apollo_Ver}-github.zip
 	unzip apollo-adminservice-${Apollo_Ver}-github.zip -d apollo-adminservice-${Apollo_Ver}
@@ -87,6 +88,7 @@ Apollo_Install_adminservice(){
 }
 
 Apollo_Install_portal(){
+	cd ${cur_dir}/src
     echo "====== Apollo_Install_portal ======"
 	Download_Files ${YUSP_Download_Mirror}/apollo-portal-${Apollo_Ver}-github.zip apollo-portal-${Apollo_Ver}-github.zip
 	unzip apollo-portal-${Apollo_Ver}-github.zip -d apollo-portal-${Apollo_Ver}
@@ -109,6 +111,7 @@ Apollo_Install_portal(){
 }
 
 Apollo_Add_AutoStartup(){
+	cd ${cur_dir}/src
 	\cp ${cur_dir}/init.d/init.d.apollo /etc/init.d/apollo
     chmod +x /etc/init.d/apollo
     echo "Add Apollo to auto startup..."
