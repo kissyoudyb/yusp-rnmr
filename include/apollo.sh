@@ -11,14 +11,16 @@ Install_Apollo()
 	Apollo_Create_Init_db
 	#安装configservice
 	Apollo_Install_configservice
+	#安装adminservice
+	Apollo_Install_adminservice
 	#安装portal
 	Apollo_Install_portal
 }
 
 Apollo_Create_Init_db() {
     echo "====== Apollo_Create_Init_db ======"
-	Download_Files ${YUSP_Download_Mirror}/apolloconfigdb.sql
-	Download_Files ${YUSP_Download_Mirror}/apolloportaldb.sql
+	Download_Files ${YUSP_Download_Mirror}/apolloconfigdb.sql apolloconfigdb.sql
+	Download_Files ${YUSP_Download_Mirror}/apolloportaldb.sql apolloconfigdb.sql
 	Apollo_Make_TempMycnf "${Apollo_DB_User}" "${Apollo_DB_Password}"
 	echo "show database..."
 	Do_Query "show databases;"
