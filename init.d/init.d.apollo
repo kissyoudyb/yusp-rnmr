@@ -1,0 +1,106 @@
+#! /bin/bash
+#   
+# apollo - this script starts and stops the apollo daemon
+#   
+# chkconfig:    2345 80 90
+# description:  Apollo 配置中心
+#   
+### BEGIN INIT INFO
+# Provides:          apollo
+# Required-Start:    $syslog
+# Required-Stop:     $syslog
+# Should-Start:        $local_fs
+# Should-Stop:        $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description:    apollo daemon
+# Description:        apollo daemon
+### END INIT INFO
+
+
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/jdk1.8.0_40/bin
+Apollo_Install_Dir=/usr/local/
+Apollo_ConfigService_Port='9001'
+Apollo_AdminService_Port='9002'
+Apollo_Portal_Port='9003'
+Apollo_Ver='1.2.0'
+
+Color_Text()
+{
+  echo -e " \e[0;$2m$1\e[0m"
+}
+
+Echo_Green()
+{
+  echo $(Color_Text "$1" "32")
+}
+
+Echo_Red()
+{
+  echo $(Color_Text "$1" "31")
+}
+   
+case "$1" in
+    start)
+		sh  ${Apollo_Install_Dir}apollo-configservice-${Apollo_Ver}/scripts/startup.sh
+		if [ $? -eq 0 ]; then
+			Echo_Green "OK, ====== start configservice Successful!!======"
+		else
+			echo "Sorry, start configservice failed! please check you operation and try again!"
+			return -1;
+		fi
+		sh  ${Apollo_Install_Dir}apollo-adminservice-${Apollo_Ver}/scripts/startup.sh
+		if [ $? -eq 0 ]; then
+			Echo_Green "OK, ====== start adminservice Successful!!======"
+		else
+			echo "Sorry, start adminservice failed! please check you operation and try again!"
+			return -1;
+		fi
+		sh  ${Apollo_Install_Dir}apollo-portal-${Apollo_Ver}/scripts/startup.sh
+		if [ $? -eq 0 ]; then
+			Echo_Green "OK, ====== start portal Successful!!======"
+		else
+			echo "Sorry, start portal failed! please check you operation and try again!"
+			return -1;
+		fi
+        ;;
+    stop)
+        echo "Shutting down Apollo..."
+		sh  ${Apollo_Install_Dir}apollo-configservice-${Apollo_Ver}/scripts/shutdown.sh
+		sh  ${Apollo_Install_Dir}apollo-adminservice-${Apollo_Ver}/scripts/shutdown.sh
+		sh  ${Apollo_Install_Dir}apollo-portal-${Apollo_Ver}/scripts/shutdown.sh
+        ;;
+    restart)
+        ${0} stop
+        ${0} start
+        ;;
+    kill)
+        echo "Shutting down Apollo..."
+		sh  ${Apollo_Install_Dir}apollo-configservice-${Apollo_Ver}/scripts/shutdown.sh
+		sh  ${Apollo_Install_Dir}apollo-adminservice-${Apollo_Ver}/scripts/shutdown.sh
+		sh  ${Apollo_Install_Dir}apollo-portal-${Apollo_Ver}/scripts/shutdown.sh
+        ;;
+    status)
+		PIDCONFIGSERVICE=`ps -ef|grep apollo-configservice | grep -v grep |wc -l`
+		PIDADMINSERVICE=`ps -ef|grep apollo-adminservice | grep -v grep |wc -l`
+		PIDPORTAL=`ps -ef|grep apollo-portal | grep -v grep |wc -l`
+        if [ "$PIDCONFIGSERVICE" = "1" ]; then
+            Echo_Green "apollo-configservice is running."
+        else
+            Echo_Red "apollo-configservice is stopped."
+        fi
+		if [ "$PIDADMINSERVICE" = "1" ]; then
+            Echo_Green "apollo-adminservice is running."
+        else
+            Echo_Red "apollo-adminservice is stopped."
+        fi
+		if [ "$PIDPORTAL" = "1" ]; then
+            Echo_Green "apollo-portal is running."
+        else
+            Echo_Red "apollo-portal is stopped."
+        fi
+        ;;
+  *)
+    echo "Usage: /etc/init.d/apollo {start|stop|restart|status|kill}" >&2
+        exit 1
+esac
