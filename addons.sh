@@ -20,6 +20,7 @@ action2=$2
 . include/jdk.sh
 . include/maven.sh
 . include/apollo.sh
+. include/nexus.sh
 
 Display_Addons_Menu()
 {
@@ -28,10 +29,12 @@ Display_Addons_Menu()
 	echo "2: Maven"
 	echo "##### Ctrip Apollo #####"
 	echo "3: Apollo"
+	echo "##### Nexus #####"
+	echo "4: Nexus"
     echo "5: Redis"
     echo "exit: Exit current script"
     echo "#####################################################"
-    read -p "Enter your choice (1, 2, 3, 5 or exit): " action2
+    read -p "Enter your choice (1, 2, 3, 4, 5 or exit): " action2
 }
 
 clear
@@ -61,6 +64,9 @@ Get_Dist_Name
 			3|[aA]pollo)
                 Install_Apollo
                 ;;
+			4|[nN]exus)
+                Install_Nexus
+                ;;	
             5|[rR]edis)
                 Install_Redis
                 ;;
@@ -68,7 +74,7 @@ Get_Dist_Name
                 exit 1
                 ;;
             *)
-                echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|apollo}"
+                echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|apollo|nexus}"
                 ;;
         esac
         ;;
@@ -86,8 +92,11 @@ Get_Dist_Name
             [aA]pollo)
                 Uninstall_Apollo
                 ;;
+			[nN]exus)
+                Uninstall_Nexus
+                ;;
             *)
-                echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|apollo}"
+                echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|apollo|nexus}"
                 ;;
         esac
         ;;
@@ -95,7 +104,7 @@ Get_Dist_Name
         exit 1
         ;;
     *)
-        echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|apollo}"
+        echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|apollo|nexus}"
         exit 1
         ;;
     esac
