@@ -41,12 +41,12 @@ RabbitMQ_Check_Install_Condition()
 	yum -y install socat-1.7.3.2-2.el7.x86_64.rpm
 	
 	Echo_Info "Checking rabbitmq-server!..."
-	rabbitmq-server=`rpm -qa | grep rabbitmq`
-	if [ "x${rabbitmq-server}" == "x" ]; then
+	rabbitmq=`rpm -qa | grep rabbitmq`
+	if [ "x${rabbitmq}" == "x" ]; then
 		Echo_Green "OK, rabbitmq-server not install"
 	else
-		Echo_Green "OK, socat installed version: ${rabbitmq-server}, uninstalling rabbitmq-server"
-		rpm -e --nodeps ${rabbitmq-server}
+		Echo_Green "OK, rabbitmq-server installed version: ${rabbitmq}, uninstalling rabbitmq-server"
+		rpm -e --nodeps ${rabbitmq}
 	fi
 	
 	if [ $? -eq 0 ]; then
