@@ -21,6 +21,7 @@ action2=$2
 . include/maven.sh
 . include/apollo.sh
 . include/nexus.sh
+. include/rabbitmq.sh
 
 Display_Addons_Menu()
 {
@@ -32,9 +33,10 @@ Display_Addons_Menu()
 	echo "##### Nexus #####"
 	echo "4: Nexus"
     echo "5: Redis"
+	echo "6: RabbitMQ"
     echo "exit: Exit current script"
     echo "#####################################################"
-    read -p "Enter your choice (1, 2, 3, 4, 5 or exit): " action2
+    read -p "Enter your choice (1, 2, 3, 4, 5, 6 or exit): " action2
 }
 
 clear
@@ -70,11 +72,14 @@ Get_Dist_Name
             5|[rR]edis)
                 Install_Redis
                 ;;
+			6|[rR]abbit[mM][qQ])
+                Install_RabbitMQ
+                ;;	
             [eE][xX][iI][tT])
                 exit 1
                 ;;
             *)
-                echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|apollo|nexus}"
+                echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|apollo|nexus|rabbitmq}"
                 ;;
         esac
         ;;
@@ -95,8 +100,11 @@ Get_Dist_Name
 			[nN]exus)
                 Uninstall_Nexus
                 ;;
+			[rR]abbit[mM][qQ])
+                Uninstall_RabbitMQ
+                ;;
             *)
-                echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|apollo|nexus}"
+                echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|apollo|nexus|rabbitmq}"
                 ;;
         esac
         ;;
@@ -104,7 +112,7 @@ Get_Dist_Name
         exit 1
         ;;
     *)
-        echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|apollo|nexus}"
+        echo "Usage: ./addons.sh {install|uninstall} {jdk|maven|redis|apollo|nexus|rabbitmq}"
         exit 1
         ;;
     esac

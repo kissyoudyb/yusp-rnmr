@@ -435,6 +435,13 @@ Echo_Blue()
   echo $(Color_Text "$1" "34")
 }
 
+Echo_Info()
+{
+	echo 'INFOING: ************************************************************'
+    echo $(Color_Text "INFOING: $1" "34")
+    echo 'INFOING: ************************************************************'
+}
+
 Check_DB()
 {
     if [[ -s /usr/local/mariadb/bin/mysql && -s /usr/local/mariadb/bin/mysqld_safe && -s /etc/my.cnf ]]; then
