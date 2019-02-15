@@ -14,7 +14,7 @@ Install_RabbitMQ()
 	#把RabbitMQ安装为linux服务TODO
 	RabbitMQ_Add_AutoStartup
 	#安装插件添加用户配置权限
-	
+	RabbitMQ_EnablePlugins_AddUser
 }
 
 RabbitMQ_Check_Install_Condition()
