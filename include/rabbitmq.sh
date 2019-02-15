@@ -13,6 +13,8 @@ Install_RabbitMQ()
 	RabbitMQ_Install
 	#把RabbitMQ安装为linux服务TODO
 	RabbitMQ_Add_AutoStartup
+	#安装插件添加用户配置权限
+	
 }
 
 RabbitMQ_Check_Install_Condition()
@@ -84,13 +86,32 @@ RabbitMQ_Add_AutoStartup(){
     fi
 }
 
+RabbitMQ_EnablePlugins_AddUser(){
+	#启动web管理界面端口15672
+	/usr/sbin/rabbitmq-plugins enable rabbitmq_management
+    #增加访问用户，默认用户guest只能本地访问
+    rabbitmqctl add_user admin 123456
+	#设置角色
+	rabbitmqctl set_user_tags admin administrator
+	#设置默认vhost ("/") 访问权限
+	rabbitmqctl set_permissions -p "/" admin "." "." ".*"
+	#浏览器访问：http://IP:15672
+	curl http://localhost:15672
+	if [ $? -eq 0 ]; then
+	    Echo_Green "====== Add RabbitMQ Auto Startup Successful! ======"
+		Echo_Green "RabbitMQ installed and start successfully, enjoy it!"
+    else
+        Echo_Error "RabbitMQ install failed!"
+    fi
+}
+
 Uninstall_RabbitMQ()
 {
-    echo "You will uninstall RabbitMQ..."
-	echo "Shutting down RabbitMQ..."
+    Echo_Warn "You will uninstall RabbitMQ..."
+	Echo_Info "Shutting down RabbitMQ..."
 	systemctl stop rabbitmq-server
 	systemctl disable rabbitmq-server.service
-    echo "Delete RabbitMQ files..."
+    Echo_Info "Delete RabbitMQ files..."
 	rpm -e --nodeps rabbitmq-server-3.7.3-1.el7.noarch
-    Echo_Green "Uninstall RabbitMQ completed."
+    Echo_Success "Uninstall RabbitMQ completed."
 }
