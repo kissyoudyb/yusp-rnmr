@@ -33,7 +33,7 @@ Nexus_Install()
     echo "====== Nexus_Install ======"
 	Download_Files ${YUSP_Download_Mirror}/nexus-${Nexus_Ver}-unix.tar.gz nexus-${Nexus_Ver}-unix.tar.gz
 	rm -rf /usr/local/nexus*
-	tar -xvf nexus-${Nexus_Ver}-unix.tar.gz -C ${Nexus_Install_Dir}nexus-${Nexus_Ver}	
+	tar -xvf nexus-${Nexus_Ver}-unix.tar.gz -C ${Nexus_Install_Dir}
 	${Nexus_Install_Dir}nexus-${Nexus_Ver}/bin/nexus start
 	if [ $? -eq 0 ]; then
         Echo_Green "OK, ====== Nexus_Install Successful!!======"
