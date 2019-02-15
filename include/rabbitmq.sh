@@ -19,7 +19,7 @@ RabbitMQ_Check_Install_Condition()
 {
     echo "====== RabbitMQ_Check_Install_Condition ======"
 	Echo_Info "Checking Erlang!..."
-	erlang=`rpm -qa erlang`
+	erlang=`rpm -qa | grep erlang`
 	Download_Files ${YUSP_Download_Mirror}/erlang-20.2.2-1.el7.centos.x86_64.rpm erlang-20.2.2-1.el7.centos.x86_64.rpm
 	if [ "x${erlang}" == "x" ]; then
 		Echo_Green "OK, Erlang not install, installing Erlang..."
@@ -30,6 +30,7 @@ RabbitMQ_Check_Install_Condition()
 	yum -y install erlang-20.2.2-1.el7.centos.x86_64.rpm
 	
 	Echo_Info "Checking Socat!..."
+	socat=`rpm -qa | grep socat`
 	Download_Files ${YUSP_Download_Mirror}/socat-1.7.3.2-2.el7.x86_64.rpm socat-1.7.3.2-2.el7.x86_64.rpm
 	if [ "x${socat}" == "x" ]; then
 		Echo_Green "OK, socat not install, installing socat..."
@@ -40,6 +41,7 @@ RabbitMQ_Check_Install_Condition()
 	yum -y install socat-1.7.3.2-2.el7.x86_64.rpm
 	
 	Echo_Info "Checking rabbitmq-server!..."
+	rabbitmq-server=`rpm -qa | grep rabbitmq`
 	if [ "x${rabbitmq-server}" == "x" ]; then
 		Echo_Green "OK, rabbitmq-server not install"
 	else
@@ -89,6 +91,6 @@ Uninstall_RabbitMQ()
 	systemctl stop rabbitmq-server
 	systemctl disable rabbitmq-server.service
     echo "Delete RabbitMQ files..."
-	rpm -e --nodeps rabbitmq-server-3.7.3-1.el7.noarch.rpm
+	rpm -e --nodeps rabbitmq-server-3.7.3-1.el7.noarch
     Echo_Green "Uninstall RabbitMQ completed."
 }
